@@ -40,10 +40,10 @@ void ProjectNetworkTable::PartialSort()
 	{
 		auto curE = que.back();
 		que.pop();
-		auto nextEvents = grCopy.at(curE).nextEvents;
-		for(auto&& nextE: nextEvents)
-		if(nextE->GetIncomingEventsCount() == 0){
-			newTable.emplace_back(curE, nextE->key, )
+		auto NextActivs = grCopy.at(curE).nextActivs;
+		for(auto&& nextAct: NextActivs)
+		if(nextAct->endNode->GetIncomingEventsCount() == 0){
+			//newTable.emplace_back(curE, nextE->key, )
 		}
 	}
 }
@@ -82,15 +82,15 @@ void ProjectNetworkTable::AddActivity(int startEventKey, int endEventKey, int ti
 	if (graph_.find(endEventKey) == graph_.end())
 		graph_.emplace(std::make_pair(endEventKey, Event(endEventKey)));
 	auto&& startE = graph_.at(startEventKey), &&endE = graph_.at(endEventKey);
-	startE.AddNextEvent(&endE);
 	table_.emplace_back(&startE, &endE, time);
+	startE.AddNextActiv(&table_.back());
 }
 
 void ProjectNetworkTable::DeleteEvent(int eIndex)
 {
+	GraphHelper::DeleteEvent(graph_, eIndex);
 	table_.erase(std::remove_if(table_.begin(), table_.end(),
 		[eIndex](const Activity& act) {return act.startNode->key == eIndex || act.endNode->key == eIndex; }), table_.end());
-	GraphHelper::DeleteEvent(graph_, eIndex);
 }
 
 void ProjectNetworkTable::CreateFakeStartEvent(int fakeE, const std::vector<int>& startEvents)
@@ -109,8 +109,7 @@ void ProjectNetworkTable::InputTable(std::istream& in)
 {
 	size_t n;
 	in >> n;
-	TableT table;
-	table.reserve(n);
+	table_.reserve(n);
 	while (n--)
 	{
 		int startKey, endKey, time;

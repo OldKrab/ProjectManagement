@@ -1,20 +1,22 @@
 ﻿#include "GraphHelper.h"
 
+#include "ProjectNetworkTable.h"
+
 
 Event::Event(int key):key(key){}
 
-void Event::AddNextEvent(Event* pe)
+void Event::AddNextActiv(Activity* pa)
 {
-	nextActivities.push_back(pe);
-	pe->incomingEventsCount_++;
+	nextActivs.push_back(pa);
+	pa->endNode->incomingEventsCount_++;
 }
 
-void Event::DeleteNextEvent(Event* pe)
+void Event::DeleteNextActiv(Activity* pa)
 {
-	auto it = std::find(nextActivities.begin(), nextActivities.end(), pe);
-	if (it != nextActivities.end()) {
-		nextActivities.erase(it);
-		pe->incomingEventsCount_--;
+	auto it = std::find(nextActivs.begin(), nextActivs.end(), pa);
+	if (it != nextActivs.end()) {
+		nextActivs.erase(it);
+		pa->endNode->incomingEventsCount_--;
 	}
 }
 
@@ -29,7 +31,9 @@ void GraphHelper::DeleteEvent(GraphT& gr, int eventIndex)
 	DeleteNextEvents(gr, delE);
 	if(delE.GetIncomingEventsCount() > 0)
 		for(auto&& [key, e]:gr)
-			e.DeleteNextEvent(&delE);
+			for(auto&& act: e.nextActivs)
+				if(act->endNode == &delE)
+					e.DeleteNextActiv(act);
 	gr.erase(eventIndex);
 }
 
@@ -46,17 +50,17 @@ std::vector<int> GraphHelper::FindEndEvents(const GraphT& gr)
 {
 	auto endEvents = std::vector<int>();
 	for (auto&& [key, e] : gr)
-		if (e.nextActivities.size() == 0)
+		if (e.nextActivs.size() == 0)
 			endEvents.push_back(key);
 	return endEvents;
 }
 
 void GraphHelper::DeleteNextEvents(GraphT& gr, Event& e)
 {
-	for(auto nextE: e.nextActivities){
-		nextE->incomingEventsCount_--;
-		if(nextE->GetIncomingEventsCount() == 0 && nextE->nextActivities.size() == 0)
-			DeleteEvent(gr, nextE->key);
+	for(auto nextAct: e.nextActivs){
+		nextAct->endNode->incomingEventsCount_--;
+		if(nextAct->endNode->GetIncomingEventsCount() == 0 && nextAct->endNode->nextActivs.size() == 0)
+			gr.erase(nextAct->endNode->key);
 	}
-	e.nextActivities.clear();
+	e.nextActivs.clear();
 }

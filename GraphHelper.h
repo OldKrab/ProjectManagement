@@ -2,15 +2,17 @@
 #include <map>
 #include <vector>
 
+struct Activity;
+
 struct Event
 {
 	explicit Event(int key);
-	void AddNextEvent(Event* pe);
-	void DeleteNextEvent(Event* pe);
+	void AddNextActiv(Activity* pa);
+	void DeleteNextActiv(Activity* pa);
 	int GetIncomingEventsCount() const;
 
 
-	std::vector<Event*> nextEvents;
+	std::vector<Activity*> nextActivs;
 	const int key;
 private:
 	int incomingEventsCount_ = 0;
