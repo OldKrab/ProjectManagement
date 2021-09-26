@@ -10,6 +10,11 @@
 Activity::Activity() :startNode(0), endNode(0), time(0) {}
 Activity::Activity(int startNode, int endNode, int time) : startNode(startNode), endNode(endNode), time(time) {}
 
+bool Activity::operator==(const Activity& other)
+{
+	return startNode == other.startNode && endNode == other.endNode && time == other.time; 
+}
+
 
 std::ostream& operator<<(std::ostream& out, const Activity& activity)
 {
@@ -75,5 +80,24 @@ std::vector<int> TableHelper::FindEndEvents(const TableT& t)
 		if (count == 0)
 			endEvents.push_back(key);
 	return endEvents;
+}
+
+std::vector<std::vector<Activity>> TableHelper::FindMultipleActivs(const TableT& t)
+{
+	std::map<std::pair<int, int>, std::vector<Activity>> activs;
+	for(auto act: t)
+		activs[std::make_pair(act.startNode, act.endNode)].push_back(act);
+	std::vector<std::vector<Activity>> res;
+	std::transform(activs.begin(), activs.end(), std::inserter(res, res.end()), 
+		[](auto pair){return pair.second;});
+	res.erase(std::remove_if(res.begin(), res.end(), [](auto vec){return vec.size() < 2;}), res.end());
+	return res;
+}
+
+std::vector<Activity> TableHelper::FindActivsToItself(const TableT& t)
+{
+	std::vector<Activity> activs;
+	std::copy_if(t.begin(), t.end(), std::back_inserter(activs), [](Activity act){return act.startNode == act.endNode;});
+	return activs;
 }
 

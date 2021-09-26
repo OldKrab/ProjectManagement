@@ -16,14 +16,18 @@ public:
 
 	void PartialSort();
 
-	void Print();
+	void Print(const std::string &title = "Текущая таблица:\n");
 
 private:
 	void AnalyzeSeveralStartPoints();
 	void AnalyzeSeveralEndPoints();
-	
+	void AnalyzeMultipleActivs();
+	void AnalyzeActivToItself();
+	void AnalyzeCycle();
+
 	void DeleteEvent(int e);
-	
+	void DeleteActivity(Activity activ);
+
 	void CreateFakeStartEvent(int fakeE, const std::vector<int>& startEvents);
 	void CreateFakeEndEvent(int fakeE, const std::vector<int>& endEvents);
 

@@ -1,5 +1,8 @@
 ﻿#include "ConsoleUI.h"
 #include "ProjectNetworkTableSolver.h"
+
+#include <iomanip>
+
 #include "ProjectNetworkTable.h"
 
 ProjectNetworkTableSolver::ProjectNetworkTableSolver(ProjectNetworkTable& table) :table_(table) {}
@@ -7,7 +10,7 @@ ProjectNetworkTableSolver::ProjectNetworkTableSolver(ProjectNetworkTable& table)
 void ProjectNetworkTableSolver::SolveSeveralEvents(const std::vector<int>& events, bool isStartEvents)
 {
 	table_.Print();
-	if(isStartEvents)
+	if (isStartEvents)
 		ConsoleUI::Print("Обнаружено несколько начальных событий: ");
 	else
 		ConsoleUI::Print("Обнаружено несколько конечных событий: ");
@@ -18,11 +21,41 @@ void ProjectNetworkTableSolver::SolveSeveralEvents(const std::vector<int>& event
 		[](char ans) {return ans == 'd' || ans == 'c'; }, "Вы должны ввести d или с!");
 	if (ans == 'd')
 		AskAndDeleteEvent(events);
-	else if(isStartEvents)
+	else if (isStartEvents)
 		AskAndCreateFakeStartEvent(events);
 	else
 		AskAndCreateFakeEndEvent(events);
 
+}
+
+void ProjectNetworkTableSolver::SolveMultipleActivs(std::vector<Activity> multipleActivsInxs)
+{
+	table_.Print();
+	ConsoleUI::Print("Обнаружены кратные работы:\n");
+	auto activsCount = multipleActivsInxs.size();
+	for (size_t i = 0; i < activsCount; i++)
+		ConsoleUI::Print(i + 1, ") ", std::setw(5), multipleActivsInxs[i], '\n');
+
+	auto inx = ConsoleUI::AskValue<size_t>("Введите порядковый номер работы, которая останется: ",
+		[activsCount](size_t ans) {return 0 < ans && ans <= activsCount; }, "Неверный порядковый номер!");
+
+	multipleActivsInxs[inx - 1] = multipleActivsInxs.back();
+	multipleActivsInxs.pop_back();
+	for (auto activ : multipleActivsInxs)
+		table_.DeleteActivity(activ);
+}
+
+void ProjectNetworkTableSolver::SolveActivsToItself(std::vector<Activity> activsToItself)
+{
+	table_.Print();
+	ConsoleUI::Print("Обнаружены работы, входящие в событие, из которой исходят:\n");
+	auto activsCount = activsToItself.size();
+	for (size_t i = 0; i < activsCount; i++)
+		ConsoleUI::Print(i + 1, ") ", std::setw(5), activsToItself[i], '\n');
+
+	ConsoleUI::Print("Данные работы удалены.\n");
+	for (auto activ : activsToItself)
+		table_.DeleteActivity(activ);
 }
 
 void ProjectNetworkTableSolver::AskAndDeleteEvent(const std::vector<int>& events)

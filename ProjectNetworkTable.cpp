@@ -15,6 +15,8 @@ void ProjectNetworkTable::Analysis()
 {
 	AnalyzeSeveralStartPoints();
 	AnalyzeSeveralEndPoints();
+	AnalyzeMultipleActivs();
+	AnalyzeActivToItself();
 }
 
 void ProjectNetworkTable::PartialSort()
@@ -32,9 +34,9 @@ void ProjectNetworkTable::PartialSort()
 	}
 }
 
-void ProjectNetworkTable::Print()
+void ProjectNetworkTable::Print(const std::string& title)
 {
-	std::cout << "Текущая таблица:\n";
+	std::cout << title;
 	for (const auto& link : activs_)
 		std::cout << std::setw(5) << link << std::endl;
 }
@@ -59,11 +61,39 @@ void ProjectNetworkTable::AnalyzeSeveralEndPoints()
 	}
 }
 
+void ProjectNetworkTable::AnalyzeMultipleActivs()
+{
+	auto multipleActivsVector = TableHelper::FindMultipleActivs(activs_);
+	for (auto multipleActivs : multipleActivsVector)
+		solver.SolveMultipleActivs(multipleActivs);
+}
+
+void ProjectNetworkTable::AnalyzeActivToItself()
+{
+	auto activsToItself = TableHelper::FindActivsToItself(activs_);
+	if(activsToItself.size() > 0)
+		solver.SolveActivsToItself(activsToItself);
+	
+}
+
+void ProjectNetworkTable::AnalyzeCycle()
+{
+	
+}
+
 void ProjectNetworkTable::DeleteEvent(int e)
 {
 	activs_.erase(std::remove_if(activs_.begin(), activs_.end(),
 		[e](Activity& act) {return act.startNode == e || act.endNode == e; }), activs_.end());
 }
+
+void ProjectNetworkTable::DeleteActivity(Activity activ)
+{
+	auto it = std::find(activs_.begin(), activs_.end(), activ);
+	if (it != activs_.end())
+		activs_.erase(it);
+}
+
 
 void ProjectNetworkTable::CreateFakeStartEvent(int fakeE, const std::vector<int>& startEvents)
 {

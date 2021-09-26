@@ -8,6 +8,7 @@ struct Activity
 {
 	Activity();
 	Activity(int startNode, int endNode, int time);
+	bool operator==(const Activity& other);
 	int startNode, endNode, time;
 };
 
@@ -24,4 +25,6 @@ public:
 	static std::map<int, int> FindOutcomeActivsCount(const TableT& t);
 	static std::vector<int> FindStartEvents(const TableT& t);
 	static std::vector<int> FindEndEvents(const TableT& t);
+	static std::vector<std::vector<Activity>> FindMultipleActivs(const TableT& t);
+	static std::vector<Activity> FindActivsToItself(const TableT& t);
 };
