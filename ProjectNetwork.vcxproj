@@ -142,7 +142,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ConsoleUI.cpp" />
-    <ClCompile Include="GraphHelper.cpp" />
+    <ClCompile Include="TableHelper.cpp" />
     <ClCompile Include="ProjectNetwork.cpp" />
     <ClCompile Include="ProjectNetworkTableSolver.cpp" />
     <ClCompile Include="ProjectNetworkTable.cpp" />
@@ -152,7 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConsoleUI.h" />
-    <ClInclude Include="GraphHelper.h" />
+    <ClInclude Include="TableHelper.h" />
     <ClInclude Include="ProjectNetworkTableSolver.h" />
     <ClInclude Include="ProjectNetworkTable.h" />
   </ItemGroup>

@@ -29,25 +29,25 @@ void ProjectNetworkTableSolver::AskAndDeleteEvent(const std::vector<int>& events
 {
 	auto event = ConsoleUI::AskValue<int>("Введите номер события, который будет удален: ",
 		[&events](int event) {return std::find(events.begin(), events.end(), event) != events.end(); },
-		"Это событие не является стартовым!");
+		"Выберите один из удаляемых событий!");
 	table_.DeleteEvent(event);
 }
 
-void ProjectNetworkTableSolver::AskAndCreateFakeStartEvent(const std::vector<int>& events)
+void ProjectNetworkTableSolver::AskAndCreateFakeStartEvent(const std::vector<int>& startEvents)
 {
-	auto&& gr = table_.graph_;
+	auto&& allEvents = TableHelper::GetEvents(table_.activs_);
 	auto event = ConsoleUI::AskValue<int>("Введите номер начального фиктивного события: ",
-		[&gr](int event) {return gr.find(event) == gr.end(); },
+		[&allEvents](int event) {return allEvents.find(event) == allEvents.end(); },
 		"Это событие уже существует!");
-	table_.CreateFakeStartEvent(event, events);
+	table_.CreateFakeStartEvent(event, startEvents);
 }
 
-void ProjectNetworkTableSolver::AskAndCreateFakeEndEvent(const std::vector<int>& events)
+void ProjectNetworkTableSolver::AskAndCreateFakeEndEvent(const std::vector<int>& endEvents)
 {
-	auto&& gr = table_.graph_;
+	auto&& allEvents = TableHelper::GetEvents(table_.activs_);
 	auto event = ConsoleUI::AskValue<int>("Введите номер конечного фиктивного события: ",
-		[&gr](int event) {return gr.find(event) == gr.end(); },
+		[&allEvents](int event) {return allEvents.find(event) == allEvents.end(); },
 		"Это событие уже существует!");
-	table_.CreateFakeEndEvent(event, events);
+	table_.CreateFakeEndEvent(event, endEvents);
 }
 

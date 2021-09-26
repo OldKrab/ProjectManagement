@@ -27,7 +27,7 @@
     <ClCompile Include="ProjectNetworkTableSolver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GraphHelper.cpp">
+    <ClCompile Include="TableHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,7 +44,7 @@
     <ClInclude Include="ProjectNetworkTableSolver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GraphHelper.h">
+    <ClInclude Include="TableHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

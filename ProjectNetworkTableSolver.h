@@ -12,8 +12,8 @@ public:
 
 private:
 	void AskAndDeleteEvent(const std::vector<int>& events);
-	void AskAndCreateFakeStartEvent(const std::vector<int>& events);
-	void AskAndCreateFakeEndEvent(const std::vector<int>& events);
+	void AskAndCreateFakeStartEvent(const std::vector<int>& startEvents);
+	void AskAndCreateFakeEndEvent(const std::vector<int>& endEvents);
 	
 	ProjectNetworkTable& table_;
 };
