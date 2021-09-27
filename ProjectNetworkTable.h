@@ -16,7 +16,7 @@ public:
 
 	void PartialSort();
 
-	void Print(const std::string &title = "Текущая таблица:\n");
+	void Print(const std::string &title = "Текущая таблица:");
 
 private:
 	void AnalyzeSeveralStartPoints();

@@ -58,6 +58,20 @@ void ProjectNetworkTableSolver::SolveActivsToItself(std::vector<Activity> activs
 		table_.DeleteActivity(activ);
 }
 
+void ProjectNetworkTableSolver::SolveCycle(const std::vector<Activity>& cycle)
+{
+	table_.Print();
+	ConsoleUI::Print("Обнаружен цикл:\n");
+	auto activsCount = cycle.size();
+	for (size_t i = 0; i < activsCount; i++)
+		ConsoleUI::Print(i + 1, ") ", std::setw(5), cycle[i], '\n');
+
+	auto inx = ConsoleUI::AskValue<size_t>("Введите порядковый номер работы, которая будет удалена: ",
+		[activsCount](size_t ans) {return 0 < ans && ans <= activsCount; }, "Неверный порядковый номер!");
+
+	table_.DeleteActivity(cycle[inx - 1]);
+}
+
 void ProjectNetworkTableSolver::AskAndDeleteEvent(const std::vector<int>& events)
 {
 	auto event = ConsoleUI::AskValue<int>("Введите номер события, который будет удален: ",

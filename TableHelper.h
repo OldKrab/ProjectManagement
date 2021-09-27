@@ -7,9 +7,9 @@
 struct Activity
 {
 	Activity();
-	Activity(int startNode, int endNode, int time);
+	Activity(int startEvent, int endEvent, int time);
 	bool operator==(const Activity& other);
-	int startNode, endNode, time;
+	int startEvent, endEvent, time;
 };
 
 std::ostream& operator<<(std::ostream& out, const Activity& activity);
@@ -27,4 +27,8 @@ public:
 	static std::vector<int> FindEndEvents(const TableT& t);
 	static std::vector<std::vector<Activity>> FindMultipleActivs(const TableT& t);
 	static std::vector<Activity> FindActivsToItself(const TableT& t);
+	static std::vector<Activity> FindCycle(const TableT& t);
+	static Activity GetActivity(const TableT& t, int startEvent, int endEvent);
+private:
+	static std::map<int, std::vector<int>> GetAdjacencyList(const TableT& t);
 };

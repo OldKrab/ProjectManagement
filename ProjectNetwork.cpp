@@ -7,6 +7,7 @@ int main()
 	std::ifstream fin("input.txt");
 	ProjectNetworkTable table(fin);
 	table.Analysis();
-	table.Print();
+	table.PartialSort();
+	table.Print("Таблица после частичной сортировки:");
 	return 0;
 }
