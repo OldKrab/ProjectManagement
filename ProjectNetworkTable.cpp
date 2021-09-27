@@ -58,6 +58,17 @@ void ProjectNetworkTable::Print(const std::string& title)
 		std::cout << std::setw(5) << act << std::endl;
 }
 
+void ProjectNetworkTable::PrintAllPaths()
+{
+	ConsoleUI::Print("Все пути:\n");
+	auto paths = TableHelper::FindAllPaths(activs_);
+	for (auto&& path : paths) {
+		for (auto&& e : path)
+			ConsoleUI::Print(std::setw(5), e);
+		ConsoleUI::Print('\n');
+	}
+}
+
 void ProjectNetworkTable::AnalyzeSeveralStartPoints()
 {
 	auto startEvents = TableHelper::FindStartEvents(activs_);
@@ -131,15 +142,19 @@ void ProjectNetworkTable::CreateFakeEndEvent(int fakeE, const std::vector<int>& 
 
 void ProjectNetworkTable::InputTable(std::istream& in)
 {
-	size_t n;
+	size_t n = 1;
 	in >> n;
+	if (n < 1)
+		throw "Таблица пустая!\n";
 	activs_.reserve(n);
 	while (n--)
 	{
 		int startEvent, endEvent, time;
 		in >> startEvent >> endEvent >> time;
-		if (in.fail())
-			throw "Ошибка при чтении таблицы!\n";
+		if(time < 0)
+			throw "Время у работы меньше нуля!\n";
 		activs_.emplace_back(startEvent, endEvent, time);
 	}
+	if (in.fail())
+		throw "Ошибка при чтении таблицы!\n";
 }

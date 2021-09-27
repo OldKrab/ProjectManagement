@@ -19,19 +19,20 @@ private:
 };
 
 template <class T>
-T ConsoleUI::AskValue(std::string question, std::function<bool(T)> isValid,  std::string wrongMessage)
+T ConsoleUI::AskValue(std::string question, std::function<bool(T)> isValid, std::string wrongMessage)
 {
 	T value;
 	while (true)
 	{
 		std::cout << question;
 		std::cin >> value;
-		if(std::cin.fail()){
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		if (std::cin.fail()) {
 			std::cout << "Введено значение, не соответствующее типу!\n";
 			std::cin.clear();
-			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			//std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		}
-		else if(isValid(value))
+		else if (isValid(value))
 			return value;
 		else
 			std::cout << wrongMessage << std::endl;
@@ -41,7 +42,7 @@ T ConsoleUI::AskValue(std::string question, std::function<bool(T)> isValid,  std
 template <class T>
 T ConsoleUI::AskValue(std::string question)
 {
-	return AskValue<T>(question,[](T){return true;},  "Неверное значение.");
+	return AskValue<T>(question, [](T) {return true; }, "Неверное значение.");
 }
 
 template <class T, class ... Args>

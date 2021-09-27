@@ -30,7 +30,7 @@
     <ClCompile Include="TableHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CycleFinder.cpp">
+    <ClCompile Include="DFSUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,7 +50,7 @@
     <ClInclude Include="TableHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CycleFinder.h">
+    <ClInclude Include="DFSUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

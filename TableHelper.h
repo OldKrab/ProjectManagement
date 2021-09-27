@@ -28,6 +28,7 @@ public:
 	static std::vector<std::vector<Activity>> FindMultipleActivs(const TableT& t);
 	static std::vector<Activity> FindActivsToItself(const TableT& t);
 	static std::vector<Activity> FindCycle(const TableT& t);
+	static std::vector<std::vector<int>> FindAllPaths(const TableT& t);
 	static Activity GetActivity(const TableT& t, int startEvent, int endEvent);
 private:
 	static std::map<int, std::vector<int>> GetAdjacencyList(const TableT& t);

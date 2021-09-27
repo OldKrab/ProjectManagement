@@ -18,6 +18,8 @@ public:
 
 	void Print(const std::string &title = "Текущая таблица:");
 
+	void PrintAllPaths();
+
 private:
 	void AnalyzeSeveralStartPoints();
 	void AnalyzeSeveralEndPoints();

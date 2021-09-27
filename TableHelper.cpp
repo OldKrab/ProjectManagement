@@ -1,11 +1,12 @@
 ﻿#include "TableHelper.h"
 
 #include <algorithm>
+#include <cassert>
 #include <iomanip>
 #include <iostream>
 #include <set>
 
-#include "CycleFinder.h"
+#include "DFSUtils.h"
 #include "ProjectNetworkTable.h"
 
 Activity::Activity() :startEvent(0), endEvent(0), time(0) {}
@@ -105,12 +106,21 @@ std::vector<Activity> TableHelper::FindActivsToItself(const TableT& t)
 std::vector<Activity> TableHelper::FindCycle(const TableT& t)
 {
 	auto adj = GetAdjacencyList(t);
-	CycleFinder cycleFinder(adj);
+	DFSUtils cycleFinder(adj);
 	auto cycle = cycleFinder.FindCycle();
 	std::vector<Activity> activs;
 	for(size_t i = 1; i < cycle.size(); i++)
 		activs.push_back(GetActivity(t, cycle[i-1],cycle[i]));
 	return activs;
+}
+
+std::vector<std::vector<int>> TableHelper::FindAllPaths(const TableT& t)
+{
+	auto adj = GetAdjacencyList(t);
+	DFSUtils pathsFinder(adj);
+	auto startEvents = FindStartEvents(t);
+	assert(startEvents.size() == 1);
+	return pathsFinder.FindAllPaths(startEvents[0]);
 }
 
 Activity TableHelper::GetActivity(const TableT& t, int startEvent, int endEvent)
