@@ -15,46 +15,52 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ProjectNetwork.cpp">
+    <ClCompile Include="src\ProjectNetwork.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ProjectNetworkTable.cpp">
+    <ClCompile Include="src\TableHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ConsoleUI.cpp">
+    <ClCompile Include="src\ConsoleUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ProjectNetworkTableSolver.cpp">
+    <ClCompile Include="src\TableSolver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TableHelper.cpp">
+    <ClCompile Include="src\DFSUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DFSUtils.cpp">
+    <ClCompile Include="src\Objects\Table.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Objects\Activity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="ProjectNetworkTable.h">
+    <ClInclude Include="src\ConsoleUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ConsoleUI.h">
+    <ClInclude Include="src\TableSolver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ProjectNetworkTableSolver.h">
+    <ClInclude Include="src\DFSUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TableHelper.h">
+    <ClInclude Include="src\Objects\Table.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DFSUtils.h">
+    <ClInclude Include="src\Objects\Activity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TableHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

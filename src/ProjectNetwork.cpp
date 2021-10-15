@@ -1,17 +1,19 @@
 ﻿#include <fstream>
 #include <iostream>
-#include "ProjectNetworkTable.h"
+#include "TableHandler.h"
 
 int main()
 {
 	setlocale(LC_ALL, "rus");
 	std::ifstream fin("input.txt");
 	try {
-		ProjectNetworkTable table(fin);
-		table.Analysis();
+		Table table;
+		table.InputTable(fin);
+		TableHandler handler(table);
+		handler.Analysis();
 		table.PartialSort();
 		table.Print("Таблица после частичной сортировки:");
-		table.PrintAllPaths();
+		handler.PrintAllPaths();
 	}
 	catch (const char* err)
 	{

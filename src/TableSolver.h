@@ -1,13 +1,12 @@
 ﻿#pragma once
 #include <vector>
+#include "Objects/Activity.h"
+#include "Objects/Table.h"
 
-struct Activity;
-class ProjectNetworkTable;
-
-class ProjectNetworkTableSolver
+class TableSolver
 {
 public:
-	ProjectNetworkTableSolver(ProjectNetworkTable& table);
+	TableSolver(Table& table);
 	
 	void SolveSeveralEvents(const std::vector<int>& events, bool isStartEvents);
 	void SolveMultipleActivs(std::vector<Activity> multipleActivsInxs);
@@ -18,5 +17,5 @@ private:
 	void AskAndCreateFakeStartEvent(const std::vector<int>& startEvents);
 	void AskAndCreateFakeEndEvent(const std::vector<int>& endEvents);
 	
-	ProjectNetworkTable& table_;
+	Table& table_;
 };

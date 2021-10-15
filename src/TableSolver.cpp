@@ -1,13 +1,11 @@
 ﻿#include "ConsoleUI.h"
-#include "ProjectNetworkTableSolver.h"
+#include "TableSolver.h"
 
 #include <iomanip>
 
-#include "ProjectNetworkTable.h"
+TableSolver::TableSolver(Table& table) :table_(table) {}
 
-ProjectNetworkTableSolver::ProjectNetworkTableSolver(ProjectNetworkTable& table) :table_(table) {}
-
-void ProjectNetworkTableSolver::SolveSeveralEvents(const std::vector<int>& events, bool isStartEvents)
+void TableSolver::SolveSeveralEvents(const std::vector<int>& events, bool isStartEvents)
 {
 	table_.Print();
 	if (isStartEvents)
@@ -28,7 +26,7 @@ void ProjectNetworkTableSolver::SolveSeveralEvents(const std::vector<int>& event
 
 }
 
-void ProjectNetworkTableSolver::SolveMultipleActivs(std::vector<Activity> multipleActivsInxs)
+void TableSolver::SolveMultipleActivs(std::vector<Activity> multipleActivsInxs)
 {
 	table_.Print();
 	ConsoleUI::Print("Обнаружены кратные работы:\n");
@@ -45,7 +43,7 @@ void ProjectNetworkTableSolver::SolveMultipleActivs(std::vector<Activity> multip
 		table_.DeleteActivity(activ);
 }
 
-void ProjectNetworkTableSolver::SolveActivsToItself(std::vector<Activity> activsToItself)
+void TableSolver::SolveActivsToItself(std::vector<Activity> activsToItself)
 {
 	table_.Print();
 	ConsoleUI::Print("Обнаружены работы, входящие в событие, из которой исходят:\n");
@@ -58,7 +56,7 @@ void ProjectNetworkTableSolver::SolveActivsToItself(std::vector<Activity> activs
 		table_.DeleteActivity(activ);
 }
 
-void ProjectNetworkTableSolver::SolveCycle(const std::vector<Activity>& cycle)
+void TableSolver::SolveCycle(const std::vector<Activity>& cycle)
 {
 	table_.Print();
 	ConsoleUI::Print("Обнаружен цикл:\n");
@@ -72,7 +70,7 @@ void ProjectNetworkTableSolver::SolveCycle(const std::vector<Activity>& cycle)
 	table_.DeleteActivity(cycle[inx - 1]);
 }
 
-void ProjectNetworkTableSolver::AskAndDeleteEvent(const std::vector<int>& events)
+void TableSolver::AskAndDeleteEvent(const std::vector<int>& events)
 {
 	auto event = ConsoleUI::AskValue<int>("Введите номер события, который будет удален: ",
 		[&events](int event) {return std::find(events.begin(), events.end(), event) != events.end(); },
@@ -80,18 +78,18 @@ void ProjectNetworkTableSolver::AskAndDeleteEvent(const std::vector<int>& events
 	table_.DeleteEvent(event);
 }
 
-void ProjectNetworkTableSolver::AskAndCreateFakeStartEvent(const std::vector<int>& startEvents)
+void TableSolver::AskAndCreateFakeStartEvent(const std::vector<int>& startEvents)
 {
-	auto&& allEvents = TableHelper::GetEvents(table_.activs_);
+	auto&& allEvents = table_.GetEvents();
 	auto event = ConsoleUI::AskValue<int>("Введите номер начального фиктивного события: ",
 		[&allEvents](int event) {return allEvents.find(event) == allEvents.end(); },
 		"Это событие уже существует!");
 	table_.CreateFakeStartEvent(event, startEvents);
 }
 
-void ProjectNetworkTableSolver::AskAndCreateFakeEndEvent(const std::vector<int>& endEvents)
+void TableSolver::AskAndCreateFakeEndEvent(const std::vector<int>& endEvents)
 {
-	auto&& allEvents = TableHelper::GetEvents(table_.activs_);
+	auto&& allEvents = table_.GetEvents();
 	auto event = ConsoleUI::AskValue<int>("Введите номер конечного фиктивного события: ",
 		[&allEvents](int event) {return allEvents.find(event) == allEvents.end(); },
 		"Это событие уже существует!");

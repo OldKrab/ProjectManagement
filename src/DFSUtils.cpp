@@ -1,7 +1,5 @@
 #include "DFSUtils.h"
 
-#include "TableHelper.h"
-
 bool DFSUtils::FindCycleRec(int v)
 {
 	color[v] = Color::Gray;
@@ -46,7 +44,7 @@ void DFSUtils::Clear()
 	}
 }
 
-DFSUtils::DFSUtils(std::map<int, std::vector<int>> adj) :adj(std::move(adj)) {}
+DFSUtils::DFSUtils(std::map<int, std::vector<int>> adj) :adj(std::move(adj)), cycleStart(-1) {}
 
 std::vector<int> DFSUtils::FindCycle()
 {
