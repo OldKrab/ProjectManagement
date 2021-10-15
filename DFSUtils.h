@@ -12,9 +12,14 @@ private:
 	bool FindCycleRec(int v);
 	std::vector<std::vector<int>> FindAllPathsRec(int v);
 	void Clear();
+
+	enum class Color
+	{
+		White, Gray, Black
+	};
 	
 	std::map<int, std::vector<int>> adj;
-	std::map<int, bool> used;
+	std::map<int, Color> color;
 	std::map<int, int> parent;
 	int cycleStart;
 };

@@ -13,14 +13,14 @@ ProjectNetworkTable::ProjectNetworkTable(std::istream& in) : solver(*this)
 
 void ProjectNetworkTable::Analysis()
 {
-	AnalyzeSeveralStartPoints();
 	AnalyzeMultipleActivs();
 	AnalyzeActivToItself();
 	AnalyzeCycle();
+	AnalyzeSeveralStartPoints();
 	AnalyzeSeveralEndPoints();
 }
 
-void ProjectNetworkTable::PartialSort()
+void ProjectNetworkTable::PartialSort()	
 {
 	auto incomeCount = TableHelper::FindIncomeActivsCount(activs_);
 	auto rightSwapIt = activs_.begin();
@@ -53,9 +53,11 @@ void ProjectNetworkTable::PartialSort()
 
 void ProjectNetworkTable::Print(const std::string& title)
 {
+	std::streamsize width = 7; 
 	std::cout << title << std::endl;
+	std::cout << std::setw(width) << "A" << std::setw(width) << "B" << std::setw(width) << "t_AB" << std::endl;
 	for (const auto& act : activs_)
-		std::cout << std::setw(5) << act << std::endl;
+		std::cout << std::setw(width) << act << std::endl;
 }
 
 void ProjectNetworkTable::PrintAllPaths()
@@ -64,7 +66,7 @@ void ProjectNetworkTable::PrintAllPaths()
 	auto paths = TableHelper::FindAllPaths(activs_);
 	for (auto&& path : paths) {
 		for (auto&& e : path)
-			ConsoleUI::Print(std::setw(5), e);
+			ConsoleUI::Print(std::setw(7), e);
 		ConsoleUI::Print('\n');
 	}
 }

@@ -7,7 +7,6 @@
 #include <set>
 
 #include "DFSUtils.h"
-#include "ProjectNetworkTable.h"
 
 Activity::Activity() :startEvent(0), endEvent(0), time(0) {}
 Activity::Activity(int startEvent, int endEvent, int time) : startEvent(startEvent), endEvent(endEvent), time(time) {}

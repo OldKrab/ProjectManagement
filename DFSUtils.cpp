@@ -4,37 +4,36 @@
 
 bool DFSUtils::FindCycleRec(int v)
 {
-	used[v] = true;
+	color[v] = Color::Gray;
 	for (int u : adj[v])
 	{
 		parent[u] = v;
-		if (!used[u]) {
+		if (color[u] == Color::White) {
 			if (FindCycleRec(u))
 				return true;
 		}
-		else
+		else if (color[u] == Color::Gray)
 		{
 			cycleStart = u;
 			return true;
 		}
 	}
-	used[v] = false;
+	color[v] = Color::Black;
 	return false;
 }
 
- std::vector<std::vector<int>> DFSUtils::FindAllPathsRec(int v)
+std::vector<std::vector<int>> DFSUtils::FindAllPathsRec(int v)
 {
 	std::vector<std::vector<int>> curPaths;
 	for (int u : adj[v])
-		if (!used[u]){
-			
-			auto childPath = FindAllPathsRec(u);
-			curPaths.insert(curPaths.end(), childPath.begin(), childPath.end());
-		}
-	for(auto&& path:curPaths)
+	{
+		auto childPath = FindAllPathsRec(u);
+		curPaths.insert(curPaths.end(), childPath.begin(), childPath.end());
+	}
+	for (auto&& path : curPaths)
 		path.push_back(v);
-	if(curPaths.size() == 0)
-		curPaths.push_back({v});
+	if (curPaths.size() == 0)
+		curPaths.push_back({ v });
 	return curPaths;
 }
 
@@ -42,7 +41,7 @@ void DFSUtils::Clear()
 {
 	for (auto [e, _] : this->adj)
 	{
-		used[e] = false;
+		color[e] = Color::White;
 		parent[e] = 0;
 	}
 }
@@ -54,7 +53,7 @@ std::vector<int> DFSUtils::FindCycle()
 	Clear();
 	bool isCycleFinded = false;
 	for (auto [v, _] : adj)
-		if (!used[v] && FindCycleRec(v)) {
+		if (color[v] != Color::Black && FindCycleRec(v)) {
 			isCycleFinded = true;
 			break;
 		}
@@ -75,7 +74,7 @@ std::vector<std::vector<int>> DFSUtils::FindAllPaths(int startEvent)
 {
 	Clear();
 	auto paths = FindAllPathsRec(startEvent);
-	for(auto&& path: paths)
+	for (auto&& path : paths)
 		reverse(path.begin(), path.end());
 	return paths;
 }

@@ -13,9 +13,8 @@ public:
 
 	template<class T, class... Args>
 	static void Print(T value, Args... tail);
-
-private:
-	static void Print();
+	template<class T>
+	static void Print(T value);
 };
 
 template <class T>
@@ -30,7 +29,7 @@ T ConsoleUI::AskValue(std::string question, std::function<bool(T)> isValid, std:
 		if (std::cin.fail()) {
 			std::cout << "¬ведено значение, не соответствующее типу!\n";
 			std::cin.clear();
-			//std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		}
 		else if (isValid(value))
 			return value;
@@ -48,8 +47,14 @@ T ConsoleUI::AskValue(std::string question)
 template <class T, class ... Args>
 void ConsoleUI::Print(T value, Args... tail)
 {
-	std::cout << value;
+	Print(value);
 	Print(tail...);
+}
+
+template <class T>
+void ConsoleUI::Print(T value)
+{
+	std::cout << value;
 }
 
 

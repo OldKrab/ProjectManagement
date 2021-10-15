@@ -34,7 +34,7 @@ void ProjectNetworkTableSolver::SolveMultipleActivs(std::vector<Activity> multip
 	ConsoleUI::Print("Обнаружены кратные работы:\n");
 	auto activsCount = multipleActivsInxs.size();
 	for (size_t i = 0; i < activsCount; i++)
-		ConsoleUI::Print(i + 1, ") ", std::setw(5), multipleActivsInxs[i], '\n');
+		ConsoleUI::Print(i + 1, ") ", std::setw(7), multipleActivsInxs[i], '\n');
 
 	auto inx = ConsoleUI::AskValue<size_t>("Введите порядковый номер работы, которая останется: ",
 		[activsCount](size_t ans) {return 0 < ans && ans <= activsCount; }, "Неверный порядковый номер!");
@@ -51,7 +51,7 @@ void ProjectNetworkTableSolver::SolveActivsToItself(std::vector<Activity> activs
 	ConsoleUI::Print("Обнаружены работы, входящие в событие, из которой исходят:\n");
 	auto activsCount = activsToItself.size();
 	for (size_t i = 0; i < activsCount; i++)
-		ConsoleUI::Print(i + 1, ") ", std::setw(5), activsToItself[i], '\n');
+		ConsoleUI::Print(i + 1, ") ", std::setw(7), activsToItself[i], '\n');
 
 	ConsoleUI::Print("Данные работы удалены.\n");
 	for (auto activ : activsToItself)
@@ -64,7 +64,7 @@ void ProjectNetworkTableSolver::SolveCycle(const std::vector<Activity>& cycle)
 	ConsoleUI::Print("Обнаружен цикл:\n");
 	auto activsCount = cycle.size();
 	for (size_t i = 0; i < activsCount; i++)
-		ConsoleUI::Print(i + 1, ") ", std::setw(5), cycle[i], '\n');
+		ConsoleUI::Print(i + 1, ") ", std::setw(7), cycle[i], '\n');
 
 	auto inx = ConsoleUI::AskValue<size_t>("Введите порядковый номер работы, которая будет удалена: ",
 		[activsCount](size_t ans) {return 0 < ans && ans <= activsCount; }, "Неверный порядковый номер!");
